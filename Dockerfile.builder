@@ -3,14 +3,14 @@
 # Also note that if build fails due to C++ internal error or similar,
 # it is possible that the image build needs more RAM than available by
 # default on non-Linux docker installs.
-FROM docker.io/library/ubuntu:22.04@sha256:1ec65b2719518e27d4d25f104d93f9fac60dc437f81452302406825c46fcc9cb AS base
+FROM docker.io/library/ubuntu:22.04@sha256:1aa979d85661c488ce030ac292876cf6ed04535d3a237e49f61542d8e5de5ae0 AS base
 LABEL maintainer="maintainer@cilium.io"
 ARG TARGETARCH
 # Setup TimeZone to prevent tzdata package asking for it interactively
 ENV TZ=Etc/UTC
 
 # renovate: datasource=golang-version depName=go
-ENV GO_VERSION=1.24.5
+ENV GO_VERSION=1.24.6
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && \
@@ -39,7 +39,7 @@ RUN apt-get update && \
 # Install Bazelisk
 #
 # renovate: datasource=github-releases depName=bazelbuild/bazelisk
-ENV BAZELISK_VERSION=v1.26.0
+ENV BAZELISK_VERSION=v1.27.0
 
 RUN ARCH=$TARGETARCH \
 	&& curl -sfL https://github.com/bazelbuild/bazelisk/releases/download/${BAZELISK_VERSION}/bazelisk-linux-${ARCH} -o /usr/bin/bazel \

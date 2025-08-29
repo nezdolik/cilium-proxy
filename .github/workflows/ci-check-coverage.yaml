@@ -62,7 +62,9 @@ jobs:
       - name: Build proxylib
         shell: bash
         run: |
-          go clean -cache
+          go mod tidy
+          go mod vendor
+          test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy && go mod vendor', and submit your changes"; exit 1)
           make -C proxylib
       - name: Build test deps
         shell: bash
