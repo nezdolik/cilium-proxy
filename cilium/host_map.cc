@@ -170,6 +170,10 @@ PolicyHostMap::PolicyHostMap(Server::Configuration::CommonFactoryContext& contex
   scope_ = context.serverScope().createScope(name_);
 }
 
+NpdsApiPtr createNpdsApi(const OptRef<envoy::config::core::v3::ConfigSource>& npds_config) {
+  return std::make_unique<NpdsApiImpl>(npds_config, context_, init_manager_, *scope_, *this);
+}
+
 void PolicyHostMap::startSubscription(Server::Configuration::CommonFactoryContext& context) {
   subscription_ = subscribe("type.googleapis.com/cilium.NetworkPolicyHosts", context.localInfo(),
                             context.clusterManager(), context.mainThreadDispatcher(),
